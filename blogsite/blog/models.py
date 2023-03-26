@@ -1,15 +1,15 @@
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.db import models
 from django.utils import timezone
 
 # Create your models here.
 
 class Post(models.Model):
-    author = models.ForeignKey("auth.User", verbose_name=_(""), on_delete=models.CASCADE)
-    title = models.CharField(_(""), max_length=200)
-    text = models.TextField(_(""))
-    created_date = models.DateTimeField(_(""), default=timezone.now(), auto_now=False, auto_now_add=False)
-    published_date = models.DateTimeField(_(""), blank=True, null=True)
+    author = models.ForeignKey("auth.User", on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now, auto_now=False, auto_now_add=False)
+    published_date = models.DateTimeField(blank=True, null=True)
 
 
     def publish(self):
@@ -27,12 +27,12 @@ class Post(models.Model):
     
 
 
-class Comment(model.Model):
-    post = models.ForeignKey("blog.Post", related_name="comments")
-    author = models.CharField(_(""), max_length=200)
-    text = models.TextField(_(""))
-    created_date = models.DateTimeField(_(""), default=timezone.now(), auto_now=False, auto_now_add=False)
-    approved_comment = models.BooleanField(_(""), default=False)
+class Comment(models.Model):
+    post = models.ForeignKey("blog.Post", related_name="comments", on_delete=models.CASCADE)
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now, auto_now=False, auto_now_add=False)
+    approved_comment = models.BooleanField(default=False)
 
     def approve(self):
         self.approved_comment = True
